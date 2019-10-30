@@ -10,4 +10,12 @@ When coding, you spend a lot of time burrowed in the minutiae of specifics. You 
 
 But naming demands that you wrest your mind from granular, concrete details and think more generally, more categorically.
 
-# The Abstraction Ladder
+## The Abstraction Ladder
+
+The linguist Sam Hayakawa, in his book [Language in Thought and Action](https://www.amazon.com/Language-Thought-Action-S-I-Hayakawa/dp/0156482401/), describes a model of language he calls the Abstraction Ladder. On this conceptual ladder, the bottommost rung represents the most concrete idea and things get more abstract up the ladder, with the topmost rung occupied by a decidedly abstract and intangible idea. The ladder is straightforward to understand, but its simplicity engenders broad and profound insights.
+
+**This is a temporary, placeholder image**
+
+<img src="images/abstraction-ladder-temp.jpg" width="100%" alt="The Abstraction Ladder" />
+
+
