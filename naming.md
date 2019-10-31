@@ -18,4 +18,12 @@ The linguist Sam Hayakawa, in his book [Language in Thought and Action](https://
 
 <img src="images/abstraction-ladder-temp.jpg" width="100%" alt="The Abstraction Ladder" />
 
+TODO: Insert custom illustration/diagram.
 
+Consider the diagram above. [Assuming its a dog at the bottom] Before the ladder even starts, it acknowledges that Molly is far from static, she's actually a being in-process, constantly changing, and composed of numerous subsystems. But despite the fact that one must abstract a living system of processes to conceive of Molly, she seems, from a language and from a mental perspective, like a pretty concrete entity. Indeed, associating a name with a living being is often the first abstract utterance of a toddler learning to speak - "Mama."
+
+The next rung up the ladder seems like a small step. But, consider the enormous mental processing it takes for a toddler to learn to ignore the differences between the family dog Molly, a [small breed - Corgi?], and the great dane that lives down the street, then to communicate this understanding by categorizing them with the word "dog." Coming by this ability to abstract takes enormous mental development, but once it's learned, it's automatic.
+
+The linguist is concerned with the relationship between words and abstractions and meaning. So too is the programmer. Your words take the form of names. Your names communicate meaning. Yes, you write comments as well, but often comments stand in to explain names that aren't quite right. A well-chosen name can obviate the need for an explanatory comment.
+
+## Naming functions
