@@ -134,29 +134,146 @@ end
 ```
 
 At this point, many programmers reach for a literal explanation in choosing a
-function name, like `split_and_join` above. Indeed, the code is splitting and
-joining a name. The function name explains what the code is doing. The name was
-quick and easy to conceive of; it's convenient.
+function name, like `split_and_join` above. Indeed, the code splits and joins a
+name. The name of the function explains how the code works now. It's quick and
+easy to conceive of this name; it's convenient.
 
-But, recall that the data comes from a source that you don't own. It's likely to
-change in unpredictable ways. Even code and data that you do own are susceptible
-to ever-changing business requirements. The code you write today might seem
-concrete, but like Molly the dog, even seemingly concrete entities are not
-static. Code is a being in-process, constantly churning.
+But recall that the data comes from a source that you don't own. It's likely to
+change in unpredictable ways. Even code and data that you *do* own are
+susceptible to ever-changing business requirements. The code you write today
+might seem concrete, but like Molly the dog, even seemingly concrete entities
+are not static. Code is a being in-process, constantly churning.
 
-Naming a function after its current implementation leaves you no wiggle room for
-change. It explains what the function does, but not what it means. In terms of
-the Abstraction Ladder, `split_and_join` would be on a lower rung, if not the
-lowest.
+It's quite possible that the name data will arrive in a different form and that
+split and join will no longer be the exact operations required to format it for
+presentation. Naming a function after its current implementation leaves you no
+wiggle room for change. `split_and_join` explains what the function does, but
+not what it means. In terms of the Abstraction Ladder, this name would be on a
+lower rung, if not the lowest.
 
-[Kinda roughed in. Abrupt. Might be a new subsection.]
+[New subsection?]
 
-A new requirement comes in. The product team would like names to be displayed in
-last, first order. The implementation will be simple enough to rework. But the
-name `split_and_join` has painted you into a corner. Do you rename it, perhaps
-to `split_and_join_and_reorder`? Down that path lies madness. The naming process
-that seemed convenient has proven to be costly.
+Consider a new requirement. As it turns out, the data has not changed, but the
+product team would like names to be displayed in last name, first name order.
+The implementation will be simple enough to rework. But the name
+`split_and_join` has painted you into a corner. Should you rename the function,
+perhaps to `split_and_join_and_reorder`? Down that path lies madness. The naming
+decision that seemed convenient has proven to be expensive.
+
+But this simple example obscures an even more costly consideration. Your 
+codebase depends on many messaging interfaces, as it should. In order
+to get anything done, your code must send messages somewhere. In other words, it must know names
+of functions it can call. When your code calls a function, it becomes dependent
+upon the name of that function. Again, this is fine. It's better than fine; message interfaces provide
+the loosest form of coupling. Well-designed code depends on the messages it
+sends to direct collaborators and little else. Over time, many parts of your
+codebase may become dependent on a single message name.
+
+In your hypothetical app, a person's name is presented in several views.
+`split_and_join` is called from many places. Many parts of your codebase have
+become dependent upon that name. Alarm bells should be going off in your head
+when you see names representing implementation details spread throughout your
+codebase. Changing this function name at its source means changing it everywhere
+it's called. There's a code smell called Shotgun Surgery that occurs when making a
+single modification requires that you make changes in many other places. In the
+categories of code smells, Shotgun Surgery is considered a Change Preventer.
+
+Indeed, the bar for changing `split_and_join` has increased dramatically over
+time as more and more code has come to depend on that function name. Public
+APIs are versioned for this very reason: dealing with API changes is an
+expensive process, fraught with peril. Handling the requirements change has
+become difficult and expensive due to a hastily chosen name.
+
+You have a couple of options.
+
+You can change the name and all its dependents throughout your codebase. This
+works if your tests are robust and there are no message sends that aren't
+revealed by grepping or tooling.[^3][^4]
+
+You might decide to live with the lie, implementing the new functionality
+without changing the function name. Your name then professes that the code
+behaves in way that it actually doesn't. This decision is the quickest to
+implement. It might appease your product team, but in terms of software
+engineering, it's kicking the can down the road. At best, you're accruing
+technical debt.
+
+The cost of code is in the reading. Your code will be expensive to read as long
+as it is poorly named. But living with the lie and conceding technical debt, in
+this case, is the optimist's view. Changing a functions's behavior to betray its
+name almost inevitably leads to downstream bugs. It's not hard to imagine a
+future programmer, maybe even you, deciding to trust a name and being burned
+with bugs when the result of the function defies expectations. Once this trust
+is broken in your codebase, programmers in your organization will feel compelled
+to dig into the implementation guts of functions all the time to determine what
+they actually do. Working on untrustworthy code is unpleasant and
+time-consuming. Time is money. Poorly named code is expensive.
+
+You might determine that the cost of changing `split_and_join`is too high in the
+present and poses too much risk in the near future. You'd prefer to prevent the
+change altogether. You push back on the product team, explaining that it's too
+complex and expensive to make this change now. Expect looks of befuddlement in
+response. Those looks are justified. A simple request should be simple to
+implement. The more you can harmonize the seemingly simple and the actually
+simple, the more you engender organizational trust in software engineering.
+
+This might all seem like hyperbole. How can a single poorly named function make
+your programming life unpleasant and engender organizational mistrust in
+software engineering? A single poorly named function probably won't be a big issue. But, the habit of
+naming functions after their current implementation will infect 
+your codebase, making all aspects of
+development slower, more expensive, and less fun.
+
+Function names should tell the right story and stand the test of time through
+changes in implementation. Naming is difficult, but names matter. It's incumbent
+upon you to develop this core programming skill. So, how should you name
+functions?
+
+-----
+
+Literal function names indicate that you know what the function does but have
+not considered what it means. You were only concerned with getting it to work.
+Your internal dialog did not span multiple levels of the Abstraction Ladder.
+You've robbed yourself of the full breadth of understanding that categorical
+thinking bestows. You might have come up with a better name had you thought
+more conceptually, more abstractly.
+
+Programming is not just an exercise in getting things to work. Of course,
+working code is absolutely necessary. But understanding and communication are as
+much a part of your job as just getting it to work. As a novice, getting
+something to work is your primary concern. Indeed, it is a victory 
+
+
+
+Code that depends
+
+Advice, rule
 
 Spreadsheet
 
-Advice
+Now you have some guidelines for improving your own code, but how do you help
+others? How do you spread value throughout your organization? How can you help
+others improve? Ask questions like this: what other names did you consider for a
+function or a module. Did you consider another implementation approach? Design
+is about tradeoffs. In order to decide between tradeoffs, you must consider
+alternatives. The quality of your code and your job satisfaction will be better
+for it.
+
+- [ ] Need to decide on method/function and message send nomenclature. Keep it
+      consistent, or depend on the footnote and vary throughout?
+
+Footnotes:
+
+[^1] The one about Elixir pipe syntax?
+
+[^2] Message sends and function calls. In object-oriented parlance, you send
+messages. In functional parlance, you call functions. This article is concerned
+with naming, which applies to all of high-level programming. As such, it treats
+these ideas equally and refers to them interchangably.
+
+[^3] Metaprogramming gets a bad rap because it complicates this kind of change.
+Failures attributed to metaprogramming are often failures of naming, at their
+root.
+
+[^4] Compiled languages may save your bacon for this kind of change. But, the
+original sin still stands. At some point, overly concrete thinking and hasty
+decision making will defeat the security blanket of your tools.
