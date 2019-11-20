@@ -228,35 +228,80 @@ changes in implementation. Naming is difficult, but names matter. It's incumbent
 upon you to develop this core programming skill. So, how should you name
 functions?
 
------
+## Subsection
 
-Literal function names indicate that you know what the function does but have
-not considered what it means. You were only concerned with getting it to work.
-Your internal dialog did not span multiple levels of the Abstraction Ladder.
-You've robbed yourself of the full breadth of understanding that categorical
-thinking bestows. You might have come up with a better name had you thought
-more conceptually, more abstractly.
+`split_and_join` is clearly named after its current implementation. The
+requirement to reorder to `last, first` order has forced you into a decision: to
+rename or not to rename. But, that decision could have been avoided altogether,
+by adhering to a simple guideline in naming functions:
 
-Programming is not just an exercise in getting things to work. Of course,
-working code is absolutely necessary. But understanding and communication are as
-much a part of your job as just getting it to work. As a novice, getting
-something to work is your primary concern. Indeed, it is a victory 
+**Name functions one level of abstraction higher than their implementation.**
 
+On the Abstraction Ladder, `split_and_join` occupies a lower rung. It's literal,
+named after its implementation. In order to name the function one rung higher, you
+must consider the function from the perspective of its callers. What service is
+the function providing to its callers?
 
+One way to derive names is to consider other things in the same category of the
+current implementation and then to name that category. What other things might
+you do to a name to present it? A simple matrix helps:
 
-Code that depends
+| Person name                  | ???              |
+|------------------------------|------------------|
+| Remove extraneous whitespace | `split_and_join` |
+| Present last name first      | `last_first`     |
+| Capitalize words             | `capitalize`     |
+| Prepend salutation           | `add_salutation` |
 
-Advice, rule
+The verb "present" might be a candidate for as a column heading in the matrix
+above. But the name of the module is `PersonPresenter`. Naming the function
+using the word `present` would read like an echo chamber:
+`PersonPresenter.present_name`. But there's another issue with using the word
+`present` in the function name. From the perspective of the `PersonPresenter`
+module, everything is about presentation. But naming a public function demands
+that you consider its purpose from an outside perspective. Function callers want
+the presenter to do something specific to a person's name. They want it to be
+formatted. Context matters in naming. `format_name` is a better choice.
 
-Spreadsheet
+Context and perspective also dictate that the function be
+named not just `format`, but `format_name` Why include `_name` when the function
+will accept `name` as a parameter? Despite the fact that it, too, creates a bit
+of an echo chamber, it makes contains more information from the caller's
+perspective. Right away you know what this does:
+`PersonPresenter.format_name("Jane Doe")`. You are not forced to open up the
+module's file and figure it out. `format_name` also leaves open the possibility
+of something like `format_address`.
 
-Now you have some guidelines for improving your own code, but how do you help
-others? How do you spread value throughout your organization? How can you help
-others improve? Ask questions like this: what other names did you consider for a
-function or a module. Did you consider another implementation approach? Design
-is about tradeoffs. In order to decide between tradeoffs, you must consider
-alternatives. The quality of your code and your job satisfaction will be better
-for it.
+`format_name` is a little bit higher on the Abstraction Ladder than
+`split_and_join`. Should you need to change how the name is formatted, in
+response to upstream data changes or new application requirements, the impact of
+the implementation will be constrained to the internals of the function and the
+name will continue to be appropriate.
+
+## PLACEHOLDER Outro
+
+Does software design really demand this level of attention to detail, this
+careful weighing between naming options for something as unremarkable and
+ordinary as a function name? If you want to do your best work, yes, it does.
+Names matter. Attention to details matter. Writing software is about more than
+just getting something to work. At an abstract level, it's a form of thought and
+communication, like writing, like speaking, like relationship-building. Your
+thoughtfulness around names will be rewarded.
+
+Literal function names indicate that you know what the function does but may not
+have considered what it means. When your internal dialog spans multiple levels
+of the Abstraction Ladder, you become open to the full breadth of understanding
+that categorical thinking bestows. That deeper understanding leads to better
+names and better code.
+
+## PLACEHOLDER Next
+
+You have a guideline for improving names in your code: name functions at one
+level of abstraction higher than their implementation. Your code will be better
+for following this guideline, but how do you help others improve? How do you
+spread value throughout your organization? Part 2 of this article will explore
+those questions and offer advice about naming classes and modules.
+
 
 - [ ] Need to decide on method/function and message send nomenclature. Keep it
       consistent, or depend on the footnote and vary throughout?
