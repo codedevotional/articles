@@ -44,10 +44,10 @@ to understand, but studying it leads to broad and profound insights.
 
 <img src="images/abstraction-ladder-temp.jpg" width="100%" alt="The Abstraction Ladder" />
 
-**TODO: Replace above with custom illustration/diagram**
+- [ ] Replace above with custom illustration/diagram.
 
-[Might take the concreteness caveat out of the diagram and only mention it in th
-text.]
+[Might take the concreteness caveat out of the diagram and only mention it in
+the text.]
 
 Consider the diagram above. [Assuming it's a dog at the bottom] Before the
 ladder even starts, it acknowledges that Molly is far from static, she's
@@ -92,19 +92,19 @@ acknowledging that a simple trim will not work due to extra whitespace between
 parts of the name.]
 
 Since you do not own the data source, you cannot fix the problem at its root.
-You check the language documentation's standard string library and the name
-`trim` catches your eye. You try that function but it's not quite right. Given
-the example string above, it trims leading and trailing whitespace as you'd
-like, but the extra space between the first and last names persists: `Jane Doe`.
-What you need is a way to get just the words in the name and join them with a
-space. Further docs investigation reveals both `String.split` and `Enum.join`.
-Used together, they do exactly what you need.
+The example string above contains extra whitespace before, after, and between
+individual parts of the name. Simply trimming leading and trailing whitespace
+will not be enough &mdash; it will
+leave extra whitespace in the middle of the string. You need to isolate the
+words in the name and join them with a space. Docs investigation reveals
+both `String.split` and `Enum.join`. Used together, they do exactly what you
+want.
 
 ```elixir
-# In syntax that should be familiar to most programmers
+# In syntax familiar to most programmers
 name = "   Jane  Doe "
-list = String.split(name)
-Enum.join(list, " ")
+list = String.split(name) # => ["Jane", "Doe"]
+Enum.join(list, " ") # => "Jane Doe"
 ```
 
 Sidenote: these simple examples could be written similarly using the standard
@@ -120,12 +120,12 @@ graceful and easy-to-read function composition:
 |> Enum.join(" ")
 ```
 
-### Mirrors ???
+### Dirty mirrors, the bottom rung
 
-You have figured out an implementation that works. You have written tests (which
+You have an implementation that works. You have, of course, written tests (which
 are not shown in this article's examples). In your application, there's a
-`PersonPresenter` module, in which it belongs. But, now you must create a
-function and name it.
+`PersonPresenter` module, in which this functionality belongs. But, now you must
+create a function and name it.
 
 ```elixir
 defmodule PersonPresenter do
@@ -138,40 +138,94 @@ defmodule PersonPresenter do
 end
 ```
 
-[REWRITE THIS PART FOR NEW RULE #1]
+At this point, it might be tempting reach for an overtly literal function name,
+like `split_and_join` above. Indeed, the code splits and joins a name. It's
+quick and easy to conceive of; it's convenient.
 
-At this point, many programmers reach for a literal explanation in choosing a
-function name, like `split_and_join` above. Indeed, the code splits and joins a
-name. The name of the function explains how the code works now. It's quick and
-easy to conceive of; it's convenient.
+The name `split_and_join` mirrors the function's internals. Refer back to the
+Abstraction Ladder diagram above. Molly occupies the lowest rung, but the
+diagram acknowledges that Molly is not actually a concrete entity, she's a
+collection of subprocesses. It would be technically correct, but awfully
+strange, to have named Molly after her internal subprocesses, perhaps something
+like `organs_and_bones_and_waggy_tail`.
 
-But recall that the data comes from a source that you don't own. It's likely to
-change in unpredictable ways. Even code and data that you *do* own are
-susceptible to ever-changing business requirements. The code you write today
-might seem concrete, but like Molly the dog, even seemingly concrete entities
-are not static. Code is a being in-process, constantly churning. Your source
-control repository's diff log is a more accurate mental model of your
+Names should establish an identity that's relatively unique. It's conceivable
+that other dogs in the world will be named Molly, but it's unlikely that many
+other dogs in the dog park will share her name. In `PersonPresenter`, it's
+likely that you will need to present other data related to a person, like their
+address or phone number. It's also conceivable that you might split and join
+other bits of this externally-supplied data. When that day comes, you will be
+forced into renaming decisions. You might use `split_and_join` as a prefix for
+different kinds of data and end up with something like:
+
+```elixir
+defmodule PersonPresenter do
+  def split_and_join_name(name)
+    name
+    |> String.split()
+    |> Enum.join(" ")
+  end
+
+  def split_and_join_address(address)
+    address
+    |> String.split()
+    |> Enum.join(" ")
+  end
+
+  def split_and_join_phone_number(phone_number)
+    phone_number
+    |> String.split()
+    |> Enum.join(" ")
+  end
+end
+```
+
+Repeated name prefixes (and suffixes) are an indicator for various code smells.
+Here, the repetition simply boils down to a poorly chosen name. The code
+above might seem ridiculous on its face, but it's not hard to find function
+names that mirror implementation details in any sizable codebase. You should
+reject these kinds of names out of hand. Unless you're writing something similar
+to a string library, they're not a good idea.
+
+FUNCTION NAMING RULE 1:
+Do not mirror implementation details in a function name.
+
+### Eventually false explanations, one rung up
+
+`split_and_join` describes how the function works. Describing what the function
+does moves the name one level of abstraction higher. You might consider a name
+like `trim_whitespace`.
+
+```elixir
+defmodule PersonPresenter do
+  def trim_whitespace(name)
+    name
+    |> String.split()
+    |> Enum.join(" ")
+  end
+end
+```
+
+This is better. But recall that the data comes from a source that you don't own.
+It's likely to change in unpredictable ways. Even code and data that you *do*
+own are susceptible to ever-evolving business requirements. The code you write
+today might seem concrete, but like Molly the dog, even seemingly concrete
+entities are not static. Code is a being in-process, constantly churning. Your
+source control repository's diff log is a more accurate mental model of your
 application than current files on disk.
 
-It's quite possible that the name data will someday arrive in a different form
-and that split and join will no longer be the exact operations required to
-format it for presentation. Naming a function after its current implementation
-leaves you no wiggle room for change. `split_and_join` explains what the
-function does, but not what it means. In terms of the Abstraction Ladder, this
-name would be on a lower rung, if not the lowest.
-
-[New subsection?]
-
-[Consider new requirement is to add a salutation. Then, in later example, write
-that a hypothetical change to last, first order would only require internal
-implementation changes. Near discusssion of `format_address`.]
+It's quite possible that name data will someday arrive in a different form and
+that removing whitespace will no longer be the only operation required to format
+it for presentation. Naming a function after what it currently does leaves you
+no wiggle room for change. `trim_whitespace` explains the function's current
+implementation, but not what it means from an API caller's perspective.
 
 Consider a new requirement. As it turns out, the data has not changed, but the
 product team would like names to be displayed in last name, first name order.
 The implementation will be simple enough to rework. But the name
-`split_and_join` has painted you into a corner.
+`trim_whitespace` has painted you into a corner.
 
-Should you rename the function, perhaps to `split_and_join_and_reorder`? Down
+Should you rename the function, perhaps to `trim_whitespace_and_reorder`? Down
 that path lies madness. The naming decision that seemed convenient has proven to
 be expensive.
 
@@ -244,13 +298,14 @@ changes in implementation. Naming is difficult, but names matter. It's incumbent
 upon you to develop this core programming skill. So, how should you name
 functions?
 
-### Step Higher
+### Discovering essence, a rung to rest on
 
 `split_and_join` is clearly named after its current implementation. The
 requirement to reorder to `last, first` has forced you into a decision: to
 rename or not to rename. But, that decision could have been avoided altogether,
 by adhering to a simple guideline in naming functions:
 
+RULE 2:
 **Name functions one level of abstraction higher than their implementation.**
 
 On the Abstraction Ladder, `split_and_join` occupies a lower rung. It's literal
@@ -292,7 +347,10 @@ perspective. Right away you know what this does: `PersonPresenter.format_name("
 Jane Doe ")`. You are not forced to open up a file and understand implementation
 details. `format_name` also leaves open the possibility of something like `format_address`.
 
-`format_name` is higher on the Abstraction Ladder than
+RULE 3:
+**Context matters**
+
+Diagram: `format_name` is higher on the Abstraction Ladder than
 `remove_whitespace`, which is a rung higher than `split_and_join`.
 
 - [ ] Insert a diagram showing the above
@@ -301,6 +359,9 @@ Should you need to change how the name is formatted, in response to upstream
 data changes or new application requirements, the impact of the implementation
 will be constrained to the internals of the function. The name will continue
 to be appropriate and no dependents will be forced to change.
+
+[Nod to the fact that this code is open to new requirements like adding a
+salutation. Would only require internal implementation changes. Near discusssion of `format_address`.]
 
 ## Climb up and down the ladder
 
