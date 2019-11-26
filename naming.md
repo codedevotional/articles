@@ -63,7 +63,7 @@ defmodule PersonPresenter do
 end
 ```
 
-At this point, it might be tempting reach for an overtly literal function name, like `split_and_join` above. Indeed, the code splits and joins a name. It's quick and easy to conceive of; it's convenient.
+At this point, it might be tempting to reach for an overtly literal function name, like `split_and_join` above. Indeed, the code splits and joins a name. It's quick and easy to conceive of; it's convenient.
 
 The name `split_and_join` mirrors the function's internals. Refer back to the Abstraction Ladder diagram above. Linguistically, Molly seems like concrete entity, but internally she's a collection of subprocesses. It would be technically correct, but awfully strange, to have named Molly after her internal subprocesses, perhaps something like `organs_and_bones_and_waggy_tail`.
 
@@ -117,7 +117,7 @@ Consider a new requirement. As it turns out, the data has not changed, but the p
 
 Should you rename the function, perhaps to `trim_whitespace_and_reorder`? Down that path lies madness. Naming a function after its implementation leads to expensive, hand-wringing decisions.
 
-But this simple example obscures an even more costly consideration. Your codebase depends on many messaging interfaces, as it should. In order to get anything done, your code must send messages somewhere. In other words, it must know names of functions it can call. When your code calls a function, it becomes dependent upon the name of that function. Again, this is fine. It's better than fine; message interfaces provide the loosest form of coupling. Well-designed code depends on the messages it sends to direct collaborators and little else. Over time, many parts of your codebase may become dependent on a single message name.[^2]
+But this simple example obscures an even more costly consideration. Your codebase depends on many messaging interfaces, as it should. In order to get anything done, your code must send messages somewhere. In other words, it must know the names of functions it can call. When your code calls a function, it becomes dependent upon the name of that function. Again, this is fine. It's better than fine; message interfaces provide the loosest form of coupling. Well-designed code depends on the messages it sends to direct collaborators and little else. Over time, many parts of your codebase may become dependent on a single message name.[^2]
 
 In your hypothetical app, a person's name is presented in several views. `trim_whitespace` is called from many places. Your codebase has become dependent upon that name. Alarm bells should be going off in your head when you see names representing implementation details spread throughout your codebase. Changing this function name at its source means changing it everywhere it's called. There's a code smell called Shotgun Surgery that occurs when making a single modification requires that you make changes in many other places. In the categories of code smells, Shotgun Surgery is considered a Change Preventer.
 
@@ -127,7 +127,7 @@ You have a couple of options.
 
 You can change the name and all its dependents throughout your codebase. This works if your tests are robust and there are no message sends that aren't revealed by tests, grepping, or tooling.[^3] and [^4]
 
-You might decide to live with the lie, implementing the new functionality without changing the function name. Your name then professes that the function behaves in way that it actually doesn't. This decision is the quickest to implement. It might appease your product team, but in terms of software engineering, it's kicking the can down the road. You're accruing technical debt and confusing your peers.
+You might decide to live with the lie, implementing the new functionality without changing the function name. Your name then professes that the function behaves in a way that it actually doesn't. This decision is the quickest to implement. It might appease your product team, but in terms of software engineering, it's kicking the can down the road. You're accruing technical debt and confusing your peers.
 
 The cost of code is in the reading. Your code will be expensive to read as long as it is poorly named. But living with the lie and conceding technical debt, in this case, is the optimist's view. Changing a function's behavior to betray its name almost inevitably leads to downstream bugs. It's not hard to imagine a future programmer, maybe even you, deciding to trust a name and being burned with bugs when the result of the function defies the promise of its name. Once this trust is broken in your codebase, programmers in your organization will feel compelled to dig into the implementation guts of functions all the time to determine what they actually do. Working on untrustworthy code is unpleasant and time-consuming. Time is money. Poorly named functions are expensive.
 
@@ -185,7 +185,7 @@ In terms of the Open Closed Principle, the code is more open to the change. For 
 
 **GUIDELINE 4: Choose names from your application domain**
 
-When you seriously consider function names, it's not uncommon to come up with several candidates that seem equally viable. In those cases, break the tie by choose words that your customers and product team use. It reduces mental friction when the vocabulary of your conversations matches the words you see on the screen when writing code.
+When you seriously consider function names, it's not uncommon to come up with several candidates that seem equally viable. In those cases, break the tie by choosing words that your customers and product team use. It reduces mental friction when the vocabulary of your conversations matches the words you see on the screen when writing code.
 
 Translating person-speak to code-speak is just one more extra cost you'd do best to avoid. In this spirit, it can be helpful, especially to newer programmers on your team, to maintain a glossary of terms for your application.
 
