@@ -14,31 +14,23 @@ But naming demands that you wrest your mind from granular, concrete details and 
 
 ## The Abstraction Ladder
 
-The linguist Sam Hayakawa, in his book [Language in Thought and Action](https://www.amazon.com/Language-Thought-Action-S-I-Hayakawa/dp/0156482401/), describes a model of language he calls the Abstraction Ladder. On this conceptual ladder, the bottommost rung holds a concrete idea. The topmost rung is occupied by a decidedly abstract, intangible concept. In between, ideas get more abstract the higher up they are. The Abstraction Ladder is straightforward to understand, but studying it leads to broad and profound insights.
+The linguist Sam Hayakawa, in his book [Language in Thought and Action](https://www.amazon.com/Language-Thought-Action-S-I-Hayakawa/dp/0156482401/), describes a model of language he calls the Abstraction Ladder. On this conceptual ladder, the bottommost rung holds the most concrete idea. The topmost rung is occupied by a decidedly abstract, intangible concept. In between, ideas get more abstract the higher up they are. The Abstraction Ladder is straightforward to understand, but studying it leads to broad and profound insights.
 
-**This is a temporary, placeholder image**
+<img src="images/abstraction-ladder.png" width="100%" alt="The Abstraction Ladder" />
 
-<img src="images/abstraction-ladder-temp.jpg" width="100%" alt="The Abstraction Ladder" />
+Consider the diagram above. Molly is on the second rung. She is far from a static entity, she's a being in-process, constantly changing, and composed of the numerous subsystems that are represented on the bottom rung. From a cognitive, linguistic perspective, Molly seems like a single entity. Indeed, associating a name with a living being is often the first utterance of a toddler learning to speak - "Mama."
 
-- [ ] Replace above with custom illustration/diagram.
+The next rung up the ladder, "Dogs" seems like a small step. But, consider the enormous mental processing it takes for a toddler to learn to ignore the differences between the family dog Molly, a small bull terrier, and the gigantic great dane that lives down the street. Learning to abstract from "Molly" to "Dogs" takes enormous mental development, but once it's learned, it's automatic, processed by the brain without the perception of thought.
 
-[Might take the concreteness caveat out of the diagram and only mention it in the text.]
-
-Consider the diagram above. [Assuming it's a dog at the bottom] Before the ladder even starts, it acknowledges that Molly is far from static, she's actually a being in-process, constantly changing, and composed of numerous subsystems. But from a cognitive, linguistic perspective, Molly seems like a concrete entity. Indeed, associating a name with a living being is often the first utterance of a toddler learning to speak - "Mama."
-
-The next rung up the ladder, "Dog" seems like a small step. But, consider the enormous mental processing it takes for a toddler to learn to ignore the differences between the family dog Molly, a [small breed - Corgi?], and the great dane that lives down the street, then to communicate this understanding by categorizing them with the word "dog." Coming by this ability to abstract takes enormous mental development, but once it's learned, it's automatic, you come by it without perceived thought.
-
-The linguist is concerned with the relationship between words and abstractions and meaning. So too is the programmer. Your words take the form of names. Your names communicate meaning. Yes, you write comments as well, but comments often stand in to explain names that aren't quite right. A well-chosen name can obviate the need for an explanatory comment.
+The linguist is concerned with the relationship between words, abstractions, and meaning. So too is the programmer. Names are your words. Your names communicate meaning and understanding. Yes, you write comments as well, but comments often stand in to explain names that aren't quite right. A well-chosen name can obviate the need for an explanatory comment.
 
 ## Naming functions
 
 Communication is most effective when it spans various levels of abstraction, when it travels up and down the ladder. Just stating that you should consider abstract ideas when naming things in your code is not enough. Providing abstract naming advice also requires concrete examples in order to be convincing. Concrete examples explain abstract ideas. In order to explain the color green, you might use examples like leaves in summertime, the bottom light of a traffic signal, or the color of an emerald.
 
-Consider a requirement in your application to display a person's first and last name. Simple enough. But the name you retrieve and all other information associated with a person comes from an an external data source that you do not own. Sometimes the data contains extra whitespace &mdash; leading, trailing, and in between. For example, the name might arrive in your application as "   Jane  Doe ". The unpredictable, extra spaces cause issues in your UI and you need to strip the whitespace out for presentation.
+Consider a requirement in your application to display a person's first and last name. Simple enough. But the name you retrieve and all other information associated with a person comes from an external data source that you do not own. Sometimes the data contains extra whitespace &mdash; leading, trailing, and in between. For example, the name might arrive in your application as "   Jane  Doe ". The unpredictable, extra spaces cause issues in your UI and you need to strip the whitespace out for presentation.
 
-[Remove or abbreviate this paragraph, removing the stuff about trim, or acknowledging that a simple trim will not work due to extra whitespace between parts of the name.]
-
-Since you do not own the data source, you cannot fix the problem at its root. The example string above contains extra whitespace before, after, and between individual parts of the name. Simply trimming leading and trailing whitespace will not be enough &mdash; it will leave extra whitespace in the middle of the string. You need to isolate the words in the name and join them with a space. Docs investigation reveals both `String.split` and `Enum.join`. Used together, they do exactly what you want.
+Since you do not own the data source, you cannot fix the problem at its root. The example string above contains extra whitespace before, after, and between individual parts of the name. Simply trimming leading and trailing whitespace, as most `trim` functions do, will not be enough &mdash; it will leave extra whitespace in the middle of the string. You need to isolate the words in the name and join them with a space. `String.split` and `Enum.join`, used together, do exactly what you want.
 
 ```elixir
 # In syntax familiar to most programmers
@@ -47,7 +39,7 @@ list = String.split(name) # => ["Jane", "Doe"]
 Enum.join(list, " ") # => "Jane Doe"
 ```
 
-Sidenote: these simple examples could be written similarly using the standard library of almost any modern language. Since they are being shown in Elixir, henceforth, they will use idiomatic Elixir syntax. Elixir's pipe operator `|>` passes the result of one operation as the first argument to the next. It affords graceful and easy-to-read function composition:
+Since these examples are being shown in Elixir, henceforth, they will use idiomatic Elixir syntax.[^1] Elixir's pipe operator `|>` passes the result of one operation as the first argument to the next. It affords graceful and easy-to-read function composition:
 
 ```elixir
 # Returns "Jane Doe"
@@ -73,11 +65,9 @@ end
 
 At this point, it might be tempting reach for an overtly literal function name, like `split_and_join` above. Indeed, the code splits and joins a name. It's quick and easy to conceive of; it's convenient.
 
-[Update diagram and update this prose. The lowest rung will be the system of processes. Draw a dashed line or something after the first rung indicating the linguistic threshold.]
-
 The name `split_and_join` mirrors the function's internals. Refer back to the Abstraction Ladder diagram above. Linguistically, Molly seems like concrete entity, but internally she's a collection of subprocesses. It would be technically correct, but awfully strange, to have named Molly after her internal subprocesses, perhaps something like `organs_and_bones_and_waggy_tail`.
 
-Names should establish an identity that's relatively unique. It's conceivable that other dogs in the world will be named Molly, but it's unlikely that many other dogs in the dog park will share her name. In `PersonPresenter`, you will need to present other data related to a person, like their address or phone number. It's also conceivable that you might split and join other bits of this externally-supplied data. When that day comes, you will be forced into renaming decisions. One ill-advised option would be to use `split_and_join` as a prefix for different kinds of data:
+Names should establish an identity that's relatively unique. It's conceivable that other dogs in the world will be named Molly, but it's unlikely that many other dogs in the park will share her name. In `PersonPresenter`, you will need to present other data related to a person, like their address or phone number. It's also conceivable that you might split and join other bits of this externally-supplied data. When that day comes, you will be forced into renaming decisions. One ill-advised option would be to use `split_and_join` as a prefix for different kinds of data:
 
 ```elixir
 defmodule PersonPresenter do
@@ -103,8 +93,7 @@ end
 
 Repeated name prefixes (and suffixes) are an indicator for various code smells. Here, the repetition simply boils down to a poorly chosen name. The code above might seem ridiculous on its face, but it's not hard to find function names that mirror implementation details in any sizable codebase. You should reject these kinds of names out of hand. Unless you're writing something similar to a string library, they're not a good idea.
 
-GUIDELINE 1:
-**Resist mirroring implementation details in a function name.**
+**GUIDELINE 1: Resist mirroring implementation details in a function name.**
 
 ### The second rung: eventually false explanations
 
@@ -128,7 +117,7 @@ Consider a new requirement. As it turns out, the data has not changed, but the p
 
 Should you rename the function, perhaps to `trim_whitespace_and_reorder`? Down that path lies madness. Naming a function after its implementatoin leads to expensive, hand-wringing decisions.
 
-But this simple example obscures an even more costly consideration. Your codebase depends on many messaging interfaces, as it should. In order to get anything done, your code must send messages somewhere. In other words, it must know names of functions it can call. When your code calls a function, it becomes dependent upon the name of that function. Again, this is fine. It's better than fine; message interfaces provide the loosest form of coupling. Well-designed code depends on the messages it sends to direct collaborators and little else. Over time, many parts of your codebase may become dependent on a single message name.
+But this simple example obscures an even more costly consideration. Your codebase depends on many messaging interfaces, as it should. In order to get anything done, your code must send messages somewhere. In other words, it must know names of functions it can call. When your code calls a function, it becomes dependent upon the name of that function. Again, this is fine. It's better than fine; message interfaces provide the loosest form of coupling. Well-designed code depends on the messages it sends to direct collaborators and little else. Over time, many parts of your codebase may become dependent on a single message name.[^2]
 
 In your hypothetical app, a person's name is presented in several views. `trim_whitespace` is called from many places. Your codebase has become dependent upon that name. Alarm bells should be going off in your head when you see names representing implementation details spread throughout your codebase. Changing this function name at its source means changing it everywhere it's called. There's a code smell called Shotgun Surgery that occurs when making a single modification requires that you make changes in many other places. In the categories of code smells, Shotgun Surgery is considered a Change Preventer.
 
@@ -136,9 +125,7 @@ Indeed, the bar for changing `trim_whitespace` increases dramatically over time 
 
 You have a couple of options.
 
-[Add prose about "the domain of your application" or "your application domain", the names your customers and product people use, etc.]
-
-You can change the name and all its dependents throughout your codebase. This works if your tests are robust and there are no message sends that aren't revealed by tests, grepping, or tooling.[^3][^4]
+You can change the name and all its dependents throughout your codebase. This works if your tests are robust and there are no message sends that aren't revealed by tests, grepping, or tooling.[^3] and [^4]
 
 You might decide to live with the lie, implementing the new functionality without changing the function name. Your name then professes that the function behaves in way that it actually doesn't. This decision is the quickest to implement. It might appease your product team, but in terms of software engineering, it's kicking the can down the road. You're accruing technical debt and confusing your peers.
 
@@ -154,8 +141,7 @@ Function names should tell the right story. Good names are resilient &mdash; the
 
 `trim_whitespace` is clearly named after its current implementation. The requirement to reorder parts of the name to `last, first` order has forced you into a decision: to rename or not to rename. But, that decision could have been avoided altogether, by adhering to a simple guideline in naming functions:
 
-GUIDELINE 2:
-**Name functions one level of abstraction higher than their implementation.**
+***GUIDELINE 2: Name functions one level of abstraction higher than their implementation.**
 
 On the Abstraction Ladder, `trim_whitespace` occupies a lower rung. It's literal and concrete. In order to move the function name one rung higher, you must consider the function from the perspective of its callers. What service is the function providing to its callers?
 
@@ -168,7 +154,7 @@ One way to derive names is to consider other things in the same category as the 
 | Capitalize words             | `capitalize`      |
 | Prepend salutation           | `add_salutation`  |
 
-GUIDELINE 3: **Context matters**
+**GUIDELINE 3: Context matters**
 
 The verb `present` is a viable candidate for the missing column heading in the matrix above. But the name of the module is `PersonPresenter`. Using the word `present` would read like an echo chamber: `PersonPresenter.present_name`.
 
@@ -189,20 +175,21 @@ Context and perspective also dictate that the function be named not just `format
 
 If the module were named `PersonFormatter`, it might make more sense to name the function something else, perhaps simply `name`. Naming the module is outside the purview of this article, but will be addressed in a followup.
 
-[Diagram: `format_name` is higher on the Abstraction Ladder than `remove_whitespace`, which is a rung higher than `split_and_join`.]
+Diagram 2: Function names abstraction ladder
+
+<img src="images/function-names-ladder.png" width="100%" alt="Function Names Abstraction Ladder" />
 
 Should you need to change how the name is formatted in response to upstream data changes or new application requirements, the impact of the implementation will be constrained to the internals of the function. The name will continue to be appropriate and no dependents will be forced to change.
 
 In terms of the Open Closed Principle, the code is more open to the change. For example, a new requirement to add a salutation would only necessitate changes to implemenation internals, no API-breaking name change would be necessary.
 
-GUIDELINE 4:
-**Choose names from your application domain**
+**GUIDELINE 4: Choose names from your application domain**
 
 When you seriously consider function names, it's not uncommon to come up with several candidates that seem equally viable. In those cases, break the tie by choose words that your customers and product team use. It reduces mental friction when the vocabulary of your conversations matches the words you see on the screen when writing code.
 
 Translating person-speak to code-speak is just one more extra cost you'd do best to avoid. In this spirit, it can be helpful, especially to newer programmers on your team, to maintain a glossary of terms for your application.
 
-### Climb up and down the ladder
+## Climb up and down the ladder
 
 Does software design really demand this level of attention to detail, this careful weighing between names for something as unremarkable and ordinary as a single function? If you want to do your best work, yes, it does. Names matter. Attention to details matter. Writing software is about more than just getting something to work. At an abstract level, it's an expression of thought and communication, like writing, like speaking, like relationship-building. Your thoughtfulness around names will be rewarded.
 
@@ -212,14 +199,26 @@ You have guidelines for improving names in your code. Your code will be better f
 
 The ideas and techniques in this article rely and expand upon the content in the [99 Bottles of OOP book](https://99bottlesofoop.com) and [Sandi Metz's Practical Object-Oriented Design Course](https://www.sandimetz.com/courses). The second edition of the 99 Bottles book is in the works! It will contain about 50% more content than the first edition. When you buy the book today, you get a free upgrade to the second edition.
 
-[Need to decide on method/function and message send nomenclature. Keep it consistent, or depend on the footnote and vary throughout? If vary throughout, it's not to confuse the point, but to reinforce the fact that naming concerns span across programming subgenres.]
+## Image attributions
 
-Footnotes:
+- Ladder: Ladder by Jamie Dickinson from the Noun Project
+- Bull terrier: Dog by Jens Tärning from the Noun Project
+- Large dog: Dog by Amanda Wray from the Noun Project
+- Puppy: Dog by bmijnlieff from the Noun Project
+- Cat: Cat by Nabilauzwa from the Noun Project
+- Hamster: Hamster by Nagy Máté from the Noun Project
+- Family w/ dog: Family by b farias from the Noun Project
+- Heart: Love by Aulia from the Noun Project
+- Lungs: Lungs by Olena Panasovska from the Noun Project
+- Ladder with three rungs: Ladder by businessicons13 from the Noun Project
 
-[^1] The one about Elixir pipe syntax?
+## Footnotes
 
-[^2] Message sends and function calls. In object-oriented parlance, you send messages. In functional parlance, you call functions. This article is concerned with naming, which applies to all of high-level programming. As such, it treats these ideas equally and refers to them interchangably.
+[^1]: These simple examples could be written similarly using the standard library of almost any modern language. 
 
-[^3] Metaprogramming gets a bad rap because it complicates this kind of change. Failures attributed to metaprogramming are often failures of naming, at their root.
+[^2]: In object-oriented parlance, you send messages. In functional parlance, you call functions. This article is concerned with naming, which applies generally, across approaches to programming. As such, it treats these ideas equally and refers to them interchangeably.
 
-[^4] Compiled languages may save your bacon for this kind of change. But, the original sin still stands. At some point, overly concrete thinking and hasty decision making will defeat the security blanket of your tools.
+[^3]: Metaprogramming gets a bad rap because it complicates this kind of change. Failures attributed to metaprogramming are sometimes failures of naming, at their root.
+
+[^4]: Compiled languages may save your bacon for this kind of change. But, the original sin still stands. At some point, overly concrete thinking and hasty decision making will defeat the security blanket of your tools.
+
