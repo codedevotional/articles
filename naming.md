@@ -16,7 +16,7 @@ But naming demands that you wrest your mind from granular, concrete details and 
 
 The linguist Sam Hayakawa, in his book [Language in Thought and Action](https://www.amazon.com/Language-Thought-Action-S-I-Hayakawa/dp/0156482401/), describes a model of language he calls the Abstraction Ladder. On this conceptual ladder, the bottommost rung holds the most concrete idea. The topmost rung is occupied by a decidedly abstract, intangible concept. In between, ideas get more abstract the higher up they are. The Abstraction Ladder is straightforward to understand, but studying it leads to broad and profound insights.
 
-<img src="images/abstraction-ladder.png" width="100%" alt="The Abstraction Ladder" />
+<img src="images/abstraction-ladder.svg" width="100%" alt="The Abstraction Ladder" />
 
 Consider the diagram above. Molly is on the second rung. She is far from a static entity, she's a being in-process, constantly changing, and composed of the numerous subsystems that are represented on the bottom rung. From a cognitive, linguistic perspective, Molly seems like a single entity. Indeed, associating a name with a living being is often the first utterance of a toddler learning to speak - "Mama."
 
@@ -93,7 +93,7 @@ end
 
 Repeated name prefixes (and suffixes) are an indicator for various code smells. Here, the repetition simply boils down to a poorly chosen name. The code above might seem ridiculous on its face, but it's not hard to find function names that mirror implementation details in any sizable codebase. You should reject these kinds of names out of hand. Unless you're writing something similar to a string library, they're not a good idea.
 
-**GUIDELINE 1: Resist mirroring implementation details in a function name.**
+**GUIDELINE 1: Resist mirroring implementation details in a function name**
 
 ### The second rung: eventually false explanations
 
@@ -115,7 +115,7 @@ It's quite possible that people's names will someday arrive in a different form 
 
 Consider a new requirement. As it turns out, the data has not changed, but the product team would like names to be displayed in last name, first name order. The implementation will be simple enough to rework. But the name `trim_whitespace` has painted you into a corner.
 
-Should you rename the function, perhaps to `trim_whitespace_and_reorder`? Down that path lies madness. Naming a function after its implementatoin leads to expensive, hand-wringing decisions.
+Should you rename the function, perhaps to `trim_whitespace_and_reorder`? Down that path lies madness. Naming a function after its implementation leads to expensive, hand-wringing decisions.
 
 But this simple example obscures an even more costly consideration. Your codebase depends on many messaging interfaces, as it should. In order to get anything done, your code must send messages somewhere. In other words, it must know names of functions it can call. When your code calls a function, it becomes dependent upon the name of that function. Again, this is fine. It's better than fine; message interfaces provide the loosest form of coupling. Well-designed code depends on the messages it sends to direct collaborators and little else. Over time, many parts of your codebase may become dependent on a single message name.[^2]
 
@@ -129,7 +129,7 @@ You can change the name and all its dependents throughout your codebase. This wo
 
 You might decide to live with the lie, implementing the new functionality without changing the function name. Your name then professes that the function behaves in way that it actually doesn't. This decision is the quickest to implement. It might appease your product team, but in terms of software engineering, it's kicking the can down the road. You're accruing technical debt and confusing your peers.
 
-The cost of code is in the reading. Your code will be expensive to read as long as it is poorly named. But living with the lie and conceding technical debt, in this case, is the optimist's view. Changing a functions's behavior to betray its name almost inevitably leads to downstream bugs. It's not hard to imagine a future programmer, maybe even you, deciding to trust a name and being burned with bugs when the result of the function defies the promise of its name. Once this trust is broken in your codebase, programmers in your organization will feel compelled to dig into the implementation guts of functions all the time to determine what they actually do. Working on untrustworthy code is unpleasant and time-consuming. Time is money. Poorly named functions are expensive.
+The cost of code is in the reading. Your code will be expensive to read as long as it is poorly named. But living with the lie and conceding technical debt, in this case, is the optimist's view. Changing a function's behavior to betray its name almost inevitably leads to downstream bugs. It's not hard to imagine a future programmer, maybe even you, deciding to trust a name and being burned with bugs when the result of the function defies the promise of its name. Once this trust is broken in your codebase, programmers in your organization will feel compelled to dig into the implementation guts of functions all the time to determine what they actually do. Working on untrustworthy code is unpleasant and time-consuming. Time is money. Poorly named functions are expensive.
 
 You might determine that the cost of changing implementing the new requirement is too high in the present and poses too much risk in the near future. You'd prefer to prevent the change altogether. When you push back on the product team, explaining that it's too complex and expensive to make now, expect looks of befuddlement in response. Those looks are justified. A simple request should be simple to implement. The more you can harmonize the seemingly simple and the actually simple, the more you engender organizational trust in software engineering.
 
@@ -141,7 +141,7 @@ Function names should tell the right story. Good names are resilient &mdash; the
 
 `trim_whitespace` is clearly named after its current implementation. The requirement to reorder parts of the name to `last, first` order has forced you into a decision: to rename or not to rename. But, that decision could have been avoided altogether, by adhering to a simple guideline in naming functions:
 
-***GUIDELINE 2: Name functions one level of abstraction higher than their implementation.**
+**GUIDELINE 2: Name functions one level of abstraction higher than their implementation**
 
 On the Abstraction Ladder, `trim_whitespace` occupies a lower rung. It's literal and concrete. In order to move the function name one rung higher, you must consider the function from the perspective of its callers. What service is the function providing to its callers?
 
@@ -177,11 +177,11 @@ If the module were named `PersonFormatter`, it might make more sense to name the
 
 Diagram 2: Function names abstraction ladder
 
-<img src="images/function-names-ladder.png" width="100%" alt="Function Names Abstraction Ladder" />
+<img src="images/function-names-ladder.svg" width="100%" alt="Function Names Abstraction Ladder" />
 
 Should you need to change how the name is formatted in response to upstream data changes or new application requirements, the impact of the implementation will be constrained to the internals of the function. The name will continue to be appropriate and no dependents will be forced to change.
 
-In terms of the Open Closed Principle, the code is more open to the change. For example, a new requirement to add a salutation would only necessitate changes to implemenation internals, no API-breaking name change would be necessary.
+In terms of the Open Closed Principle, the code is more open to the change. For example, a new requirement to add a salutation would only necessitate changes to implementation internals, no API-breaking name change would be necessary.
 
 **GUIDELINE 4: Choose names from your application domain**
 
@@ -199,6 +199,13 @@ You have guidelines for improving names in your code. Your code will be better f
 
 The ideas and techniques in this article rely and expand upon the content in the [99 Bottles of OOP book](https://99bottlesofoop.com) and [Sandi Metz's Practical Object-Oriented Design Course](https://www.sandimetz.com/courses). The second edition of the 99 Bottles book is in the works! It will contain about 50% more content than the first edition. When you buy the book today, you get a free upgrade to the second edition.
 
+## Guidelines summary
+
+- Resist mirroring implementation details in a function name
+- Name functions one level of abstraction higher than their implementation
+- Context matters
+- Choose names from your application domain
+
 ## Image attributions
 
 - Ladder: Ladder by Jamie Dickinson from the Noun Project
@@ -207,7 +214,7 @@ The ideas and techniques in this article rely and expand upon the content in the
 - Puppy: Dog by bmijnlieff from the Noun Project
 - Cat: Cat by Nabilauzwa from the Noun Project
 - Hamster: Hamster by Nagy Máté from the Noun Project
-- Family w/ dog: Family by b farias from the Noun Project
+- Family with dog: Family by b farias from the Noun Project
 - Heart: Love by Aulia from the Noun Project
 - Lungs: Lungs by Olena Panasovska from the Noun Project
 - Ladder with three rungs: Ladder by businessicons13 from the Noun Project
