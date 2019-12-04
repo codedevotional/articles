@@ -1,4 +1,4 @@
-# Names Pin the Jell-O to the Wall
+# Naming: Climbing Towards Abstraction
 
 Your code and its artifacts are strewn with names. You name repositories, files, packages, classes, functions, variables, and on and on. The names you choose determine the quality of the conversations you have with your programmer peers.
 
@@ -12,15 +12,13 @@ When writing code, you spend a lot of time burrowed in the minutiae of specifics
 
 But naming demands that you wrest your mind from granular, concrete details and think more generally, more categorically.
 
-## The Abstraction Ladder
-
 The linguist Sam Hayakawa, in his book [Language in Thought and Action](https://www.amazon.com/Language-Thought-Action-S-I-Hayakawa/dp/0156482401/), describes a model of language he calls the Abstraction Ladder. On this conceptual ladder, the bottommost rung holds the most concrete idea. The topmost rung is occupied by a decidedly abstract, intangible concept. In between, ideas get more abstract the higher up they are. The Abstraction Ladder is straightforward to understand, but studying it leads to broad and profound insights.
 
 <img src="images/abstraction-ladder.svg" width="100%" alt="The Abstraction Ladder" />
 
 Consider the diagram above. Molly is on the second rung. She is far from a static entity, she's a being in-process, constantly changing, composed of numerous subsystems that are represented on the bottom rung. But from a cognitive, linguistic perspective, Molly seems like a single entity. Indeed, associating a name with a living being is often the first utterance of a toddler learning to speak - "Mama."
 
-The next rung up the ladder, "Dogs" seems like a small step. But, consider the enormous mental processing it takes for a toddler to learn to ignore the differences between the family dog Molly, a small bull terrier, and the gigantic great dane that lives down the street. Learning to abstract from "Molly" to "Dogs" takes enormous mental development, but once it's learned, it's automatic, processed by the brain without the perception of thought.
+The next rung up the ladder, "Dogs" seems like a small step. But, consider the enormous mental processing it takes for a toddler to learn to ignore the differences between the family dog Molly, a small bull terrier, and the gigantic great dane that lives down the street. Learning to abstract from "Molly" to "Dogs" takes significant mental development, but once it's learned, it's automatic, processed by the brain without the perception of thought.
 
 The linguist is concerned with the relationship between words, abstractions, and meaning. So too is the programmer. Names are your words. Your names communicate meaning and understanding. Yes, you write comments as well, but comments often stand in to explain names that aren't quite right. A well-chosen name can obviate the need for an explanatory comment.
 
@@ -48,7 +46,7 @@ Since these examples are being shown in Elixir, henceforth, they will use idioma
 |> Enum.join(" ")
 ```
 
-### The bottom rung: dirty mirrors
+### Bottom rung: dirty mirrors
 
 You have an implementation that works. You have, of course, written tests (not shown). In your application, there's a `PersonPresenter` module, in which this functionality belongs. But, now you must create a function and name it.
 
@@ -93,9 +91,9 @@ end
 
 Repeated name prefixes (and suffixes) are an indicator for various code smells. Here, the repetition simply boils down to a poorly chosen name. The code above might seem ridiculous on its face, but it's not hard to find function names that mirror implementation details in any sizable codebase. You should reject these kinds of names out of hand. Unless you're writing something similar to a string library, they're not a good idea.
 
-**GUIDELINE 1: Resist mirroring implementation details in a function name**
+**GUIDELINE: Resist mirroring implementation details in a function name**
 
-### The second rung: eventually false explanations
+### A rung up: eventually false explanations
 
 `split_and_join` describes how the function works. Describing what the function *does* moves the name one level of abstraction higher. You might consider a name like `trim_whitespace`.
 
@@ -123,11 +121,15 @@ In your hypothetical app, a person's name is presented in several views. `trim_w
 
 Indeed, the bar for changing `trim_whitespace` increases dramatically over time as more and more code comes to depend on the function name. Public APIs are versioned for this very reason: dealing with API changes is an expensive process, fraught with peril. Handling the requirements change has become difficult and expensive due to a concrete name.
 
-You have a couple of options.
+**GUIDELINE: Resist describing current implementation details in a function name**
 
-You can change the name and all its dependents throughout your codebase. This works if your tests are robust and there are no message sends that aren't revealed by tests, grepping, or tooling.[^3] and [^4]
+### A rung to rest on: discovering essence
 
-You might decide to live with the lie, implementing the new functionality without changing the function name. Your name then professes that the function behaves in a way that it actually doesn't. This decision is the quickest to implement. It might appease your product team, but in terms of software engineering, it's kicking the can down the road. You're accruing technical debt and confusing your peers.
+Faced with the conundrum of renaming a function with many dependents, you have a couple of options.
+
+You can change the name where it's defined and everywhere it's used throughout your codebase. This works if your tests are robust and there are no message sends that aren't revealed by tests, grepping, or tooling.[^3] and [^4]
+
+You might decide to live with the lie, implementing new functionality without changing the function name. Your name then professes that the function behaves in a way that it actually doesn't. This decision is the quickest to implement. It might appease your product team, but in terms of software engineering, it's kicking the can down the road. You're accruing technical debt and confusing your peers.
 
 The cost of code is in the reading. Your code will be expensive to read as long as it is poorly named. But living with the lie and conceding technical debt, in this case, is the optimist's view. Changing a function's behavior to betray its name almost inevitably leads to downstream bugs. It's not hard to imagine a future programmer, maybe even you, deciding to trust a name and being burned with bugs when the result of the function defies the promise of its name. Once this trust is broken in your codebase, programmers in your organization will feel compelled to dig into the implementation guts of functions all the time to determine what they actually do. Working on untrustworthy code is unpleasant and time-consuming. Time is money. Poorly named functions are expensive.
 
@@ -137,11 +139,7 @@ This might seem like hyperbole. How can a single poorly named function make your
 
 Function names should tell the right story. Good names are resilient &mdash; they stand the test of time through changes in implementation. Naming is difficult, but names matter. It's incumbent upon you to develop this core programming skill. So, how should you name functions? 
 
-### A rung to rest on: discovering essence
-
-`trim_whitespace` is clearly named after its current implementation. The requirement to reorder the name to `last, first` order has forced you into a decision: to rename or not to rename. But, that decision could have been avoided altogether, by adhering to a simple guideline in naming functions:
-
-**GUIDELINE 2: Name functions one level of abstraction higher than their implementation**
+`trim_whitespace` is clearly named after its current implementation. The requirement to reorder the name to `last, first` order has forced you into a decision: to rename or not to rename. But, that decision could have been avoided altogether, by wresting your mind from granular implementation details to think about names more categorically. Your function name should move one rung higher.
 
 On the Abstraction Ladder, `trim_whitespace` occupies a lower rung. It's literal and concrete. In order to move the function name one rung higher, you must consider the function from the perspective of its callers. What service is the function providing?
 
@@ -153,8 +151,6 @@ One way to derive names is to consider other things in the same category as the 
 | Present last name first      | `last_first`      |
 | Capitalize words             | `capitalize`      |
 | Prepend salutation           | `add_salutation`  |
-
-**GUIDELINE 3: Context matters**
 
 The verb `present` is a viable candidate for the missing column heading in the matrix above. But the name of the module is `PersonPresenter`. Using the word `present` would read like an echo chamber: `PersonPresenter.present_name`.
 
@@ -181,30 +177,34 @@ Diagram 2: Function names abstraction ladder
 
 Should you need to change how the name is formatted in response to upstream data changes or new application requirements, the impact of the implementation will be constrained to the internals of the function. The name will continue to be appropriate and no dependents will be forced to change.
 
-In terms of the Open Closed Principle, the code is more open to the change. For example, a new requirement to add a salutation would only necessitate changes to implementation internals, no API-breaking name change would be necessary.
+In terms of the Open Closed Principle, the code is more open to the change. For example, a new requirement to add a salutation would only necessitate changes to implementation internals, no API-breaking name change would be necessary. By increasing the level of abstraction, you have created an approprate and resilient function name.
 
-**GUIDELINE 4: Choose names from your application domain**
+**GUIDELINE: Name functions one level of abstraction higher than their implementation**
 
-When you seriously consider function names, it's not uncommon to come up with several candidates that seem equally viable. In those cases, break the tie by choosing words that your customers and product team use. It reduces mental friction when the vocabulary of your conversations matches the words you see on the screen when writing code.
+### Climb higher: ask a friend for stability
 
-Translating person-speak to code-speak is just one more bit of mental friction (and extra cost) you'd do best to avoid. In this spirit, it can be helpful, especially to newer programmers on your team, to maintain a glossary of terms for your application.
+When you seriously consider function names, it's not uncommon to come up with several candidates that seem equally viable. In those cases, break the tie by choosing words that your customers and product team use. In other words, when you're not sure, ask others for help. Just as you might ask a friend to stabilize the ladder while you climb that one rung higher to reach the work you need to do, asking for help in naming has a stabilizing effect on code.
+
+Application lexicons arise from conversations. It reduces mental friction when the vocabulary of your team matches the words you see on the screen in your text editor. Without having to translate person-speak to code-speak, you remove just one more bit of mental processing you'd do best to avoid. Agreeing on names reduces the overall organizational cost of writing software. In this spirit, it can be helpful, especially for newcomers on your team, to maintain a glossary of terms for your application.
+
+**GUIDELINE: Choose names from your application lexicon**
 
 ## Climb up and down the ladder
 
-Does software design really demand this level of attention to detail, this careful weighing between names for something as unremarkable and ordinary as a single function? If you want to do your best work, yes, it does. Names matter. Attention to details matter. Writing software is about more than just getting something to work. At an abstract level, it's an expression of thought and communication, like writing, like speaking, like relationship-building. Your thoughtfulness around names will be rewarded.
+Does software design really demand this level of attention to detail, this careful weighing of names for something as unremarkable and ordinary as a single function? If you want to do your best work, yes, it does. Names matter. Attention to details matters. Writing software is about more than just getting something to work. At an abstract level, it's an expression of thought and communication, like writing, like speaking, like relationship-building. Your thoughtfulness around names will pay off.
 
-A literal function name indicates that you know what a function does but may not have considered what it means. When your internal and external dialog spans multiple levels of the Abstraction Ladder, you become open to the full breadth of understanding that categorical thinking bestows. That deeper understanding leads to better code, in every way.
+A literal function name indicates that you know what a function does but may not have considered what it means or how it's perceived by others who use it. When your internal and external dialog spans multiple levels of the Abstraction Ladder, you become open to the full breadth of understanding that categorical thinking bestows. That deeper understanding leads to better code, in every way.
 
-You have guidelines for improving names in your code. Your code will be better for following these guidelines. But how do you help others improve? How do you spread value throughout your organization? Part 2 of this article will explore those questions and offer advice about naming classes and modules.
+You have guidelines for improving names and your code will be better for following them. But how do you help others improve? How do you spread value throughout your organization? Part 2 of this article will explore those questions and offer advice about naming classes and modules.
 
-The ideas and techniques in this article rely and expand upon the content in the [99 Bottles of OOP book](https://99bottlesofoop.com) and [Sandi Metz's Practical Object-Oriented Design Course](https://www.sandimetz.com/courses). The second edition of the 99 Bottles book is in the works! It will contain about 50% more content than the first edition. Now when you buy the first edition of the book, you get a free upgrade to the second edition.
+The ideas and techniques in this article rely and expand upon the content in the [99 Bottles of OOP book](https://99bottlesofoop.com) and [Sandi Metz's Practical Object-Oriented Design Course](https://www.sandimetz.com/courses). The second edition of the 99 Bottles book is in the works! It will contain several new chapters with about 50% more content than the first edition. Now, when you buy the first edition, you get a free upgrade to the second edition.
 
 ## Guidelines summary
 
 - Resist mirroring implementation details in a function name
+- Resist describing current implementation details in a function name
 - Name functions one level of abstraction higher than their implementation
-- Context matters
-- Choose names from your application domain
+- Choose names from your application lexicon
 
 ## Image attributions
 
