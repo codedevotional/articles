@@ -115,7 +115,7 @@ Consider a new requirement. As it turns out, the data has not changed, but the p
 
 Should you rename the function, perhaps to `trim_whitespace_and_reorder`? Down that path lies madness. Naming a function after its implementation leads to expensive, hand-wringing decisions.
 
-But this simple example obscures an even more costly consideration. Your codebase depends on many messaging interfaces, as it should. In order to get anything done, your code must send messages somewhere. In other words, it must know the names of functions it can call. When your code calls a function, it becomes dependent upon the name of that function. Again, this is fine. It's better than fine; message interfaces provide the loosest form of coupling. Well-designed code depends on the messages it sends to direct collaborators and little else. Over time, many parts of your codebase may become dependent on a single message name.[^2]
+And this simple example obscures an even more costly consideration. Your codebase depends on many messaging interfaces, as it should. In order to get anything done, your code must send messages somewhere. In other words, it must know the names of functions it can call. When your code calls a function, it becomes dependent upon the name of that function. Again, this is fine. It's better than fine; message interfaces provide the loosest form of coupling. Well-designed code depends on the messages it sends to direct collaborators and little else. Over time, many parts of your codebase may become dependent on a single message name.[^2]
 
 In your hypothetical app, a person's name is presented in several views. `trim_whitespace` is called from many places. Your codebase has become dependent upon that name. Alarm bells should be going off in your head when you see names representing implementation details spread throughout your codebase. Changing this function name at its source means changing it everywhere it's called. There's a code smell called Shotgun Surgery that occurs when making a single modification requires that you make changes in many other places. In the categories of code smells, Shotgun Surgery is considered a Change Preventer.
 
@@ -131,7 +131,7 @@ You can change the name where it's defined and everywhere it's used throughout y
 
 You might decide to live with the lie, implementing new functionality without changing the function name. Your name then professes that the function behaves in a way that it actually doesn't. This decision is the quickest to implement. It might appease your product team, but in terms of software engineering, it's kicking the can down the road. You're accruing technical debt and confusing your peers.
 
-The cost of code is in the reading. Your code will be expensive to read as long as it is poorly named. But living with the lie and conceding technical debt, in this case, is the optimist's view. Changing a function's behavior to betray its name almost inevitably leads to downstream bugs. It's not hard to imagine a future programmer, maybe even you, deciding to trust a name and being burned with bugs when the result of the function defies the promise of its name. Once this trust is broken in your codebase, programmers in your organization will feel compelled to dig into the implementation guts of functions all the time to determine what they actually do. Working on untrustworthy code is unpleasant and time-consuming. Time is money. Poorly named functions are expensive.
+The cost of code is in the reading. Your code will be expensive to read as long as it is poorly named. Living with the lie and conceding technical debt, in this case, is the optimist's view. Changing a function's behavior to betray its name almost inevitably leads to downstream bugs. It's not hard to imagine a future programmer, maybe even you, deciding to trust a name and being burned with bugs when the result of the function defies the promise of its name. Once this trust is broken in your codebase, programmers in your organization will feel compelled to dig into the implementation guts of functions all the time to determine what they actually do. Working on untrustworthy code is unpleasant and time-consuming. Time is money. Poorly named functions are expensive.
 
 You might determine that the cost of implementing the new requirement is too high in the present and poses too much risk in the near future. You'd prefer to prevent the change altogether. When you push back on the product team, explaining that it's too complex and expensive to make now, expect looks of befuddlement in response. Those looks are justified. A simple request should be simple to implement. The more you can harmonize the seemingly simple and the actually simple, the more you engender organizational trust in software engineering.
 
@@ -139,7 +139,7 @@ This might seem like hyperbole. How can a single poorly named function make your
 
 Function names should tell the right story. Good names are resilient &mdash; they stand the test of time through changes in implementation. Naming is difficult, but names matter. It's incumbent upon you to develop this core programming skill. So, how should you name functions? 
 
-`trim_whitespace` is clearly named after its current implementation. The requirement to reorder the name to `last, first` order has forced you into a decision: to rename or not to rename. But, that decision could have been avoided altogether, by wresting your mind from granular implementation details to think about names more categorically. Your function name should move one rung higher.
+`trim_whitespace` is clearly named after its current implementation. The requirement to reorder the name to `last, first` order has forced you into a decision: to rename or not to rename. However, that decision could have been avoided altogether, by wresting your mind from granular implementation details to think about names more categorically. Your function name should move one rung higher.
 
 On the Abstraction Ladder, `trim_whitespace` occupies a lower rung. It's literal and concrete. In order to move the function name one rung higher, you must consider the function from the perspective of its callers. What service is the function providing?
 
@@ -152,7 +152,7 @@ One way to derive names is to consider other things in the same category as the 
 | Capitalize words             | `capitalize`      |
 | Prepend salutation           | `add_salutation`  |
 
-The verb `present` is a viable candidate for the missing column heading in the matrix above. But the name of the module is `PersonPresenter`. Using the word `present` would read like an echo chamber: `PersonPresenter.present_name`.
+The verb `present` is a viable candidate for the missing column heading in the matrix above. Remember that the name of the module is `PersonPresenter` so naming the function present would read like an echo chamber: `PersonPresenter.present_name`.
 
 There's another issue with the name `present`. From the internal perspective of the `PersonPresenter` module, everything is about presentation. But naming a public function demands that you consider its purpose from an outside perspective. Function callers want the presenter to do something specific to a person's name. They want it to be formatted. Context matters. `format_name` is a better choice. 
 
@@ -191,13 +191,13 @@ Application lexicons arise from conversations. It reduces mental friction when t
 
 ## Climb up and down the ladder
 
-Does software design really demand this level of attention to detail, this careful weighing of names for something as unremarkable and ordinary as a single function? If you want to do your best work, yes, it does. Names matter. Attention to details matters. Writing software is about more than just getting something to work. At an abstract level, it's an expression of thought and communication, like writing, like speaking, like relationship-building. Your thoughtfulness around names will pay off.
+Does software design really demand this level of attention to detail, this careful weighing of names for something as unremarkable and ordinary as a single function? If you want to do your best work, then yes, it does. Names matter. Attention to details matters. Writing software is about more than just getting something to work. At an abstract level, it's an expression of thought and communication, like writing, like speaking, like relationship-building. Your thoughtfulness around names will pay off.
 
 A literal function name indicates that you know what a function does but may not have considered what it means or how it's perceived by others who use it. When your internal and external dialog spans multiple levels of the Abstraction Ladder, you become open to the full breadth of understanding that categorical thinking bestows. That deeper understanding leads to better code, in every way.
 
-You have guidelines for improving names and your code will be better for following them. But how do you help others improve? How do you spread value throughout your organization? Part 2 of this article will explore those questions and offer advice about naming classes and modules.
+You have guidelines for improving names and your code will be better for following them. Thinking more broadly, how do you help others improve? How do you spread value throughout your organization? Part 2 of this article will explore those questions and offer advice about naming classes and modules.
 
-The ideas and techniques in this article rely and expand upon the content in the [99 Bottles of OOP book](https://99bottlesofoop.com) and [Sandi Metz's Practical Object-Oriented Design Course](https://www.sandimetz.com/courses). The second edition of the 99 Bottles book is in the works! It will contain several new chapters with about 50% more content than the first edition. Now, when you buy the first edition, you get a free upgrade to the second edition.
+The ideas and techniques in this article rely and expand upon the content in the [99 Bottles of OOP book](https://99bottlesofoop.com) and [Sandi Metz's Practical Object-Oriented Design Course](https://www.sandimetz.com/courses). The second edition of the 99 Bottles book is in the works. It will contain several new chapters with about 50% more content than the first edition. Now, when you buy the first edition, you get a free upgrade to the second edition.
 
 ## Guidelines summary
 
