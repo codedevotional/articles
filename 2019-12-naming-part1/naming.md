@@ -61,7 +61,7 @@ defmodule PersonPresenter do
 end
 ```
 
-At this point, it might be tempting to reach for an overtly literal function name, like `split_and_join` above. Indeed, the code splits and joins a name. It's quick and easy to conceive of; it's convenient.
+At this point, it might be tempting to reach for an overtly literal function name, like `split_and_join` above. Indeed, the code splits and joins a name. It's quick and easy to conceive of &mdash; it's a convenient, albeit lazy, option.
 
 The name `split_and_join` mirrors the function's internals. Refer back to the Abstraction Ladder diagram above. Linguistically, Molly seems like concrete entity, but internally she's a collection of subprocesses. It would be technically correct, but awfully strange, to have named Molly after her internal subprocesses, perhaps something like `organs_and_bones_and_waggy_tail`.
 
