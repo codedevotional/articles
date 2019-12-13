@@ -28,7 +28,7 @@ Communication is most effective when it spans various levels of abstraction, whe
 
 Consider a requirement in your application to display a person's first and last name. Simple enough. But the name you retrieve, and all other information associated with a person, comes from an external data source that you do not own. Sometimes the data contains extra whitespace &mdash; leading, trailing, and in between. For example, the name might arrive in your application as "   Jane  Doe ". The unpredictable, extra spaces cause issues in your UI and you need to strip the whitespace out for presentation.
 
-Since you do not own the data source, you cannot fix the problem at its root. The example string above contains extra whitespace before, after, and between individual parts of the name. Simply trimming leading and trailing whitespace, as most `trim` functions do, will not be enough &mdash; it will leave extra whitespace in the middle of the string. You need to isolate the words in the name and join them with a space. `String.split` and `Enum.join`, used together, do exactly what you want.
+Since you do not own the data source, the problem cannot be fixed at its root. The example string above contains extra whitespace before, after, and between individual parts of the name. Simply trimming leading and trailing whitespace, as most `trim` functions do, will not be enough &mdash; it will leave extra whitespace in the middle of the string. You need to isolate the words in the name and join them with a space. `String.split` and `Enum.join`, used together, do exactly what you want.
 
 ```elixir
 # In syntax familiar to most programmers
@@ -48,7 +48,7 @@ Since these examples are being shown in Elixir, henceforth, they will use idioma
 
 ### Bottom rung: dirty mirrors
 
-You have an implementation that works. You have, of course, written tests (not shown). In your application, there's a `PersonPresenter` module, in which this functionality belongs. But, now you must create a function and name it.
+Your hypothetical application needs to handle this unformatted data gracefully. You have an implementation that works. You have, of course, written tests (not shown). In your application, there's a `PersonPresenter` module, in which this functionality belongs. But, now you must create a function and name it.
 
 ```elixir
 defmodule PersonPresenter do
