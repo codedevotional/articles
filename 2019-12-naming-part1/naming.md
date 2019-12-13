@@ -117,7 +117,7 @@ Should you rename the function, perhaps to `trim_whitespace_and_reorder`? Down t
 
 And this simple example obscures an even more costly consideration. Your codebase depends on many messaging interfaces, as it should. In order to get anything done, your code must send messages somewhere. In other words, it must know the names of functions it can call. When your code calls a function, it becomes dependent upon the name of that function. Again, this is fine. It's better than fine; message interfaces provide the loosest form of coupling. Well-designed code depends on the messages it sends to direct collaborators and little else. Over time, many parts of your codebase may become dependent on a single message name.[^2]
 
-In your hypothetical app, a person's name is presented in several views. `trim_whitespace` is called from many places. Your codebase has become dependent upon that name. Alarm bells should be going off in your head when you see names representing implementation details spread throughout your codebase. Changing this function name at its source means changing it everywhere it's called. There's a code smell called Shotgun Surgery that occurs when making a single modification requires that you make changes in many other places. In the categories of code smells, Shotgun Surgery is considered a Change Preventer.
+In your hypothetical app, a person's name is presented in several views. `trim_whitespace` is called from many places. Your codebase has become dependent upon that name. Alarm bells should be going off in your head when you see names representing implementation details spread throughout your codebase. Changing this function name at its source means changing it everywhere it's called. There's a code smell called [Shotgun Surgery](https://martinfowler.com/books/refactoring.html) that occurs when making a single modification requires that you make changes in many other places. In the categories of code smells, Shotgun Surgery is considered a Change Preventer.[^3]
 
 Indeed, the bar for changing `trim_whitespace` increases dramatically over time as more and more code comes to depend on the function name. Public APIs are versioned for this very reason: dealing with API changes is an expensive process, fraught with peril. Handling the requirements change has become difficult and expensive due to a concrete name.
 
@@ -127,7 +127,7 @@ Indeed, the bar for changing `trim_whitespace` increases dramatically over time 
 
 Faced with the conundrum of renaming a function with many dependents, you have a couple of options.
 
-You can change the name where it's defined and everywhere it's used throughout your codebase. This works if your tests are robust and there are no message sends that aren't revealed by tests, grepping, or tooling.[^3] and [^4]
+You can change the name where it's defined and everywhere it's used throughout your codebase. This works if your tests are robust and there are no message sends that aren't revealed by tests, grepping, or tooling.[^4] and [^5]
 
 You might decide to live with the lie, implementing new functionality without changing the function name. Your name then professes that the function behaves in a way that it actually doesn't. This decision is the quickest to implement. It might appease your product team, but in terms of software engineering, it's kicking the can down the road. You're accruing technical debt and confusing your peers.
 
@@ -225,7 +225,10 @@ The ideas and techniques in this article rely and expand upon the content in the
 
 [^2]: In object-oriented parlance, you send messages. In functional parlance, you call functions. This article is concerned with naming, which applies generally, across approaches to programming. As such, it treats these ideas equally and refers to them interchangeably.
 
-[^3]: Metaprogramming gets a bad rap because it complicates this kind of change. Failures attributed to metaprogramming are sometimes failures of naming, at their root.
+[^3]: Mika Mäntylä, Jari Vanhanen, and Casper Lassenius. 2003. A taxonomy and an initialempirical  study  of  bad  smells  in  code.  In:  Proceedings  of  the  19th  InternationalConference  on  Software  Maintenance  (ICSM  2003).  Amsterdam,  The  Netherlands.22-26 September 2003, pages 381-384
 
-[^4]: Compiled languages may save your bacon for this kind of change. But the original sin still stands. At some point, overly concrete thinking and hasty decision making will defeat the security blanket of your tools.
+[^4]: Metaprogramming gets a bad rap because it complicates this kind of change. Failures attributed to metaprogramming are sometimes failures of naming, at their root.
+
+[^5]: Compiled languages may save your bacon for this kind of change. But the original sin still stands. At some point, overly concrete thinking and hasty decision making will defeat the security blanket of your tools.
+
 
