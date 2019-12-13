@@ -16,9 +16,9 @@ The linguist Sam Hayakawa, in his book [Language in Thought and Action](https://
 
 <img src="images/abstraction-ladder.svg" width="100%" alt="The Abstraction Ladder" />
 
-Consider the diagram above. Molly is on the second rung. She is far from a static entity &mdash; she's a being in process, constantly changing, composed of numerous subsystems that are represented on the bottom rung. But from a cognitive, linguistic perspective, Molly seems like a single entity. Indeed, associating a name with a living being is often the first utterance of a toddler learning to speak - "Mama."
+Consider the diagram above. Molly is on the second rung. She is far from a static entity &mdash; she's a being in process, constantly changing, composed of numerous subsystems that are represented on the bottom rung. From a cognitive, linguistic perspective, however, Molly seems like a single entity. Indeed, associating a name with a living being is often the first utterance of a toddler learning to speak - "Mama."
 
-The next rung up the ladder, "Dogs" seems like a small step. But, consider the enormous mental processing it takes for a toddler to learn to ignore the differences between the family dog Molly, a small bull terrier, and the gigantic Great Dane that lives down the street. Learning to abstract from "Molly" to "Dogs" takes significant mental development, but once it's learned, it's automatic, processed by the brain without the perception of thought.
+Though the next rung up the ladder, "Dogs," is a single step, it's a significant cognitive leap. Consider the enormous mental processing it takes for a toddler to learn to ignore the differences between the family dog Molly, a small bull terrier, and the gigantic Great Dane that lives down the street. Learning to abstract from "Molly" to "Dogs" involves mental development over time, but once it's learned, it's automatic, processed by the brain without the perception of thought.
 
 The linguist is concerned with the relationship between words, abstractions, and meaning. So too is the programmer. Names are your words. Your names communicate meaning and understanding. Yes, you write comments as well, but comments often stand in to explain names that aren't quite right. A well-chosen name can obviate the need for an explanatory comment.
 
@@ -26,7 +26,7 @@ The linguist is concerned with the relationship between words, abstractions, and
 
 Communication is most effective when it spans various levels of abstraction, when it travels up and down the ladder. It's not enough to recommend that you consider abstract ideas when naming things in your code. Providing abstract naming advice also requires concrete examples in order to be convincing. Concrete examples explain abstract ideas. In order to explain the color green, you might use examples like leaves in summertime, the bottom light of a traffic signal, or the color of an emerald.
 
-Consider a requirement in your application to display a person's first and last name. Simple enough. But the name you retrieve, and all other information associated with a person, comes from an external data source that you do not own. Sometimes the data contains extra whitespace &mdash; leading, trailing, and in between. For example, the name might arrive in your application as "   Jane  Doe ". The unpredictable, extra spaces cause issues in your UI and you need to strip the whitespace out for presentation.
+Consider a requirement in your application to display a person's first and last name. Simple enough, but the name you retrieve, and all other information associated with a person, comes from an external data source that you do not own. Sometimes the data contains extra whitespace &mdash; leading, trailing, and in between. For example, the name might arrive in your application as "   Jane  Doe ". The unpredictable, extra spaces cause issues in your UI and you need to strip the whitespace out for presentation.
 
 Since you do not own the data source, the problem cannot be fixed at its root. The example string above contains extra whitespace before, after, and between individual parts of the name. Simply trimming leading and trailing whitespace, as most `trim` functions do, will not be enough &mdash; it will leave extra whitespace in the middle of the string. You need to isolate the words in the name and join them with a space. `String.split` and `Enum.join`, used together, do exactly what you want.
 
@@ -48,7 +48,7 @@ Since these examples are being shown in Elixir, henceforth, they will use idioma
 
 ### Bottom rung: dirty mirrors
 
-Your hypothetical application needs to handle this unformatted data gracefully. You have an implementation that works. You have, of course, written tests (not shown). In your application, there's a `PersonPresenter` module, in which this functionality belongs. But, now you must create a function and name it.
+Your hypothetical application needs to handle this unformatted data gracefully. You have an implementation that works. You have, of course, written tests (not shown). In your application, there's a `PersonPresenter` module, in which this functionality belongs. Now you must create a function and name it.
 
 ```elixir
 defmodule PersonPresenter do
@@ -107,7 +107,7 @@ defmodule PersonPresenter do
 end
 ```
 
-This is better. But recall that the data comes from a source you do not own. It's controlled by someone else and likely to change in unpredictable ways. Even code and data that you *do* own are susceptible to ever-evolving business requirements. The code you write today might seem concrete, but like Molly the dog, even seemingly concrete entities are not static. Code is a being in-process, constantly churning. Your source control repository's diff log is a more accurate mental model of your application than current files on disk.
+This is better, but recall that the data comes from a source you do not own. It's controlled by someone else and likely to change in unpredictable ways. Even code and data that you *do* own are susceptible to ever-evolving business requirements. The code you write today might seem concrete, but like Molly the dog, even seemingly concrete entities are not static. Code is a being in-process, constantly churning. Your source control repository's diff log is a more accurate mental model of your application than current files on disk.
 
 It's quite possible that people's names will someday arrive in a different form and that removing whitespace will no longer be the only operation required to prepare it for presentation. Naming a function after what it currently does leaves you no wiggle room for change. `trim_whitespace` explains the function's current implementation, but not what it means from the caller's perspective, nor what it means from an application domain perspective.
 
@@ -229,6 +229,6 @@ The ideas and techniques in this article rely and expand upon the content in the
 
 [^4]: Metaprogramming gets a bad rap because it complicates this kind of change. Failures attributed to metaprogramming are sometimes failures of naming, at their root.
 
-[^5]: Compiled languages may save your bacon for this kind of change. But the original sin still stands. At some point, overly concrete thinking and hasty decision making will defeat the security blanket of your tools.
+[^5]: Compiled languages may save your bacon for this kind of change. Despite that, the original sin still stands. At some point, overly concrete thinking and hasty decision making will defeat the security blanket of your tools.
 
 
