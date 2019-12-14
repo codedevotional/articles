@@ -16,7 +16,7 @@ The linguist Sam Hayakawa, in his book [Language in Thought and Action](https://
 
 <img src="images/abstraction-ladder.svg" width="100%" alt="The Abstraction Ladder" />
 
-Consider the diagram above. Molly is on the second rung. She is far from a static entity &mdash; she's a being in process, constantly changing, composed of numerous subsystems that are represented on the bottom rung. From a cognitive, linguistic perspective, however, Molly seems like a single entity. Indeed, associating a name with a living being is often the first utterance of a toddler learning to speak - "Mama."
+Consider the diagram above. Molly is on the second rung. She is far from a static entity &mdash; she's a being in process, constantly changing, composed of numerous subsystems that are represented on the bottom rung. From a cognitive, linguistic perspective, however, Molly seems like a single entity. Indeed, associating a name with a living being is often the first utterance of a toddler learning to speak &mdash; "Mama."
 
 Though the next rung up the ladder, "Dogs," is a single step, it's a significant cognitive leap. Consider the enormous mental processing it takes for a toddler to learn to ignore the differences between the family dog Molly, a small bull terrier, and the gigantic Great Dane that lives down the street. Learning to abstract from "Molly" to "Dogs" involves mental development over time, but once it's learned, it's automatic, processed by the brain without the perception of thought.
 
@@ -135,7 +135,7 @@ The cost of code is in the reading. Your code will be expensive to read as long 
 
 You might determine that the cost of implementing the new requirement is too high in the present and poses too much risk in the near future. You'd prefer to prevent the change altogether. When you push back on the product team, explaining that it's too complex and expensive to make now, expect looks of befuddlement in response. Those looks are justified. A simple request should be simple to implement. The more you can harmonize the seemingly simple and the actually simple, the more you engender organizational trust in software engineering.
 
-This might seem like hyperbole. How can a single poorly named function make your programming life unpleasant and engender organizational mistrust in software engineering? A single poorly named function probably won't. But, the *habit* of naming functions after their current implementation will infect your codebase, making all aspects of development slower, more expensive, and less fun.
+This might seem like hyperbole. How can a single poorly named function make your programming life unpleasant and engender organizational mistrust in software engineering? A single poorly named function probably won't. But the *habit* of naming functions after their current implementation will infect your codebase, making all aspects of development slower, more expensive, and less fun.
 
 Function names should tell the right story. Good names are resilient &mdash; they stand the test of time through changes in implementation. Naming is difficult, but names matter. It's incumbent upon you to develop this core programming skill. So, how should you name functions? 
 
@@ -169,7 +169,7 @@ end
 
 Context and perspective also dictate that the function be named not just `format`, but `format_name` Why include `_name` when the function will accept `name` as a parameter? Despite the fact that it, too, creates a bit of an echo chamber, it contains the right amount of information from the caller's perspective. Right away you know what this does: `PersonPresenter.format_name("  Jane  Doe ")`. You are not forced to open up a file and understand implementation details. `format_name` also leaves open the possibility of something like `format_address`.
 
-If the module were named `PersonFormatter`, it might make more sense to name the function something else, perhaps simply `name`. Naming the module is outside the purview of this article, but will be addressed in a followup article.
+If the module were named `PersonFormatter`, it might make more sense to name the function something else, perhaps simply `name`. Naming the module is outside the purview of this article, but will be addressed in a follow-up article.
 
 Diagram 2: Function names abstraction ladder
 
@@ -177,7 +177,7 @@ Diagram 2: Function names abstraction ladder
 
 Should you need to change how the name is formatted in response to upstream data changes or new application requirements, the impact of the implementation will be constrained to the internals of the function. The name will continue to be appropriate and no dependents will be forced to change.
 
-In terms of the Open Closed Principle, the code is more open to the change. For example, a new requirement to add a salutation would only necessitate changes to implementation internals, no API-breaking name change would be necessary. By increasing the level of abstraction, you have created an approprate and resilient function name.
+In terms of the Open Closed Principle, the code is more open to the change. For example, a new requirement to add a salutation would only necessitate changes to implementation internals, no API-breaking name change would be necessary. By increasing the level of abstraction, you have created an appropriate and resilient function name.
 
 **GUIDELINE: Name functions one level of abstraction higher than their implementation**
 
