@@ -225,7 +225,7 @@ The ideas and techniques in this article rely and expand upon the content in the
 
 [^2]: In object-oriented parlance, you send messages. In functional parlance, you call functions. This article is concerned with naming, which applies generally, across approaches to programming. As such, it treats these ideas equally and refers to them interchangeably.
 
-[^3]: Mika Mäntylä, Jari Vanhanen, and Casper Lassenius. 2003. A taxonomy and an initialempirical  study  of  bad  smells  in  code.  In:  Proceedings  of  the  19th  InternationalConference  on  Software  Maintenance  (ICSM  2003).  Amsterdam,  The  Netherlands.22-26 September 2003, pages 381-384
+[^3]: Mika Mäntylä, Jari Vanhanen, and Casper Lassenius. 2003. A taxonomy and an initial empirical  study  of  bad  smells  in  code.  In:  Proceedings  of  the  19th  InternationalConference  on  Software  Maintenance  (ICSM  2003).  Amsterdam,  The  Netherlands.22-26 September 2003, pages 381-384
 
 [^4]: Metaprogramming gets a bad rap because it complicates this kind of change. Failures attributed to metaprogramming are sometimes failures of naming, at their root.
 
